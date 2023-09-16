@@ -19,11 +19,12 @@ def _get_product(request: HttpRequest, *args, **kwargs):
     config = apps.get_app_config(IntercloudConfig.name)
     model: Model = config.get_product_model()
     products = model.objects.all()
-    print(index, products.count())
+    #print(index, products.count())
     if index < 0 or index >= products.count():
         return HttpResponseNotFound()
     product = products[index]
     data = settings.INSTALLED_PLUGINS.get("INTERCLOUD", {}).get("data", None).copy()
+    print(data)
     if data is None:
         raise ImproperlyConfigured("This app seems to be in the installed apps but seems\
 like is not correctly configured in INSTALLED_PLUGINS. (TIP: Set data configuration as \
