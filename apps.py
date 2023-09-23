@@ -1,7 +1,8 @@
 from django.apps import AppConfig, registry
-from django.conf import settings
+#from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.module_loading import import_string
+from SOSCombos import settings
 
 class IntercloudConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -14,7 +15,7 @@ class IntercloudConfig(AppConfig):
             raise ImproperlyConfigured("This app seems to be in the installed apps but seems\
 like is not correctly configured in INSTALLED_PLUGINS. (TIP: Set configuration as \
 shown in this project settings.py example)")
-        self.product_model = import_string(configuration.get("product_model"))
+        self.product_model = import_string(configuration.get("product_model"))# this put a value when is configurate in the settings
 
     def get_product_model(self, ):
         return self.product_model
