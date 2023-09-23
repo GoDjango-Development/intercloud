@@ -1,40 +1,33 @@
+from logging import log
 from .apps import IntercloudConfig
 from django.db.models import Model
 from django.shortcuts import render
-#from django.conf import settings
+from django.conf import settings
 from django.apps.registry import apps
 from django.core.exceptions import ImproperlyConfigured
 from django.http.request import HttpRequest
 from django.http.response import JsonResponse, HttpResponseNotFound
-from SOSCombos import settings
 from django.core import serializers
 import json
 
 # Create your views here.
-
+#USE LOG FOR COMMENTS
 def _get_product(request: HttpRequest, *args, **kwargs):
     
-    try:
-        index = int(request.GET.get("sly-position", -1))
-    except ValueError:
-        return HttpResponseNotFound
+    index = int(request.GET.get("sly-position", -1))
     
     if index == -1:
         index = kwargs.get("id", -1)
-    else:
-        index = kwargs.get("id", 0)
-        
+    
     config = apps.get_app_config(IntercloudConfig.name)
     model: Model = config.get_product_model()
     products=model.objects.all()
     
-    if index < 0: #muestramelos todos 
+    if index < 0: #show all
      
         data = serializers.serialize('json', products, indent=4)      
    
-    else: #si especifica alguna muestramelo 
-        print("Para mostrar uno solo")
-    #Esto es par atrabajar con el json para procesarlo q es lo q se va a mostrar
+    else:#this show me data of the one was select
         product = products[index]
         data = settings.INSTALLED_PLUGINS.get("INTERCLOUD", {}).get("data", None).copy()
     
@@ -55,6 +48,7 @@ def _get_product(request: HttpRequest, *args, **kwargs):
                 raise ImproperlyConfigured("%s value must be a callable or str"%key)
         if products.count() - 1 == index:
             data["%signal%"] = "%.%"
+        
     return JsonResponse(data, safe=False)
 
 

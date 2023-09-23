@@ -15,7 +15,7 @@ class IntercloudConfig(AppConfig):
             raise ImproperlyConfigured("This app seems to be in the installed apps but seems\
 like is not correctly configured in INSTALLED_PLUGINS. (TIP: Set configuration as \
 shown in this project settings.py example)")
-        self.product_model = import_string(configuration.get("product_model"))# le pone un valor cuando lo configura en el setting
+        self.product_model = import_string(configuration.get("product_model"))# this put a value when is configurate in the settings
 
     def get_product_model(self, ):
         return self.product_model
