@@ -1,8 +1,8 @@
 from django.apps import AppConfig, registry
-#from django.conf import settings
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.module_loading import import_string
-from SOSCombos import settings
+
 
 class IntercloudConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'

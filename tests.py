@@ -1,7 +1,5 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
-#from .views import *
-from .urls import urlpatterns
 from .views import *
 from .models import ICFProducts, ICFExampleProduct, ICFRemoteProduct
 from django.urls import reverse, set_urlconf, get_urlconf, include
@@ -14,14 +12,12 @@ class InterCloudTest(TestCase):
         ICFExampleProduct.objects.create()
         #set_urlconf(get_urlconf() + urlpatterns)
 
-    def test_get_products(self, ):
-        return # Do nothing as we must handle not already started case
-        forged_request = self.factory.get("http://localhost:8000/test/intercloud/", {
-            "sly-position": 0
-        })
-        response = get_products(forged_request, )
+    def test_get_products(self ):
+        forged_request = self.factory.get("http://127.0.0.1:8000/inter/")
+        response = get_products(forged_request,0)
+        
+        assert response.status_code == 200, "Not found"
         print(response)
-        assert response.status_code == 200, "Not 200"
 
     def test_icfproducts(self, *args, **kwargs):
         icf_products = ICFProducts()
@@ -41,6 +37,5 @@ class InterCloudTest(TestCase):
         print(icf_products)
         print(icf_products.count())
         print(len(icf_products))
+ 
 
-    #def test_each_product(self, ):
-    #    pass
